@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {View, Text, Image, StyleSheet, useWindowDimensions, ScrollView} from "react-native";
-import Logo from "../../../assests/images/rideit.png";
+import Logo from "../../../assets/images/rideit.png";
 import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton";
 import SocialSignInButtons from "../../components/SocialSignInButtons/SocialSignInButtons";
