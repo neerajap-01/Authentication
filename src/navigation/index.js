@@ -1,5 +1,4 @@
 import React from "react";
-import {View, Text} from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SignInScreen from '../screens/SignInScreen';
@@ -12,11 +11,32 @@ import SplashScreen from "../screens/SplashScreen";
 
 const Stack = createNativeStackNavigator();
 
+const config = {
+    animation: 'spring',
+    config: {
+        stiffness: 1000,
+        damping: 500,
+        mass: 3,
+        overshootClamping: true,
+        restDisplacementThreshold: 0.01,
+        restSpeedThreshold: 0.01,
+    },
+};
+
 const Navigation = () => {
     return (
         <NavigationContainer>
             <Stack.Navigator screenOptions={{headerShown: false}}>
-                <Stack.Screen name="Splash" component={SplashScreen} />
+                <Stack.Screen
+                    name="Splash"
+                    component={SplashScreen}
+                    options={{
+                        transitionSpec: {
+                            open: config,
+                            close: config,
+                        },
+                    }}
+                />
                 <Stack.Screen name="SignIn" component={SignInScreen} />
                 <Stack.Screen name="SignUp" component={SignUpScreen} />
                 <Stack.Screen name="ConfirmEmail" component={ConfirmEmailScreen} />
