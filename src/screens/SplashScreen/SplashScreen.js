@@ -35,11 +35,6 @@ const SplashScreen = () => {
                 speed={1.3}
                 loop={false}
                 onAnimationFinish={()=>{
-                    /*navigation.dispatch(
-                        StackActions.replace('SignIn', {
-                            user: null,
-                        })
-                    );*/
                     if(isFirstLaunch === null) {
                         return null;
                     }else if (isFirstLaunch === true) {
