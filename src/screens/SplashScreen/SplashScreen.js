@@ -1,13 +1,25 @@
-import React from 'react';
-import {View, Text, StyleSheet, useWindowDimensions, Image} from 'react-native';
+import React, {useEffect} from 'react';
+import {View, Text, StyleSheet, useWindowDimensions, Image, SafeAreaView} from 'react-native';
 import LottieView from 'lottie-react-native';
-import {useNavigation, StackActions} from "@react-navigation/native";
+import {StackActions, useNavigation} from "@react-navigation/native";
 import Logo from "../../../assets/images/rideit_splash.png";
+import AsyncStorage from "@react-native-community/async-storage";
 
 
 const SplashScreen = () => {
     const navigation = useNavigation();
     const {height} = useWindowDimensions();
+    const [isFirstLaunch, setIsFirstLaunch] = React.useState(null);
+    useEffect(() => {
+        AsyncStorage.getItem('alreadyLaunched').then((value) => {
+            if (value == null) {
+                AsyncStorage.setItem('alreadyLaunched', 'true');
+                setIsFirstLaunch(true);
+            } else {
+                setIsFirstLaunch(false);
+            }
+        });
+    }, []);
     return (
         <View style={styles.container}>
             <Image
@@ -18,16 +30,35 @@ const SplashScreen = () => {
 
             <LottieView
                 style={styles.lottie}
-                source={require('../../../assets/splash.json')}
+                source={require('../../../assets/lottieFiles/splash.json')}
                 autoPlay
                 speed={1.3}
                 loop={false}
                 onAnimationFinish={()=>{
-                    navigation.dispatch(
+                    /*navigation.dispatch(
                         StackActions.replace('SignIn', {
                             user: null,
                         })
-                    );
+                    );*/
+                    if(isFirstLaunch === null) {
+                        return null;
+                    }else if (isFirstLaunch === true) {
+                        return (
+                            navigation.dispatch(
+                                StackActions.replace('Onboard', {
+                                    user: null,
+                                })
+                            )
+                        )
+                    } else {
+                        return (
+                            navigation.dispatch(
+                                StackActions.replace('SignIn', {
+                                    user: null,
+                                })
+                            )
+                        );
+                    }
                 }}
             />
         </View>

@@ -8,6 +8,7 @@ import ForgotPasswordScreen from '../screens/ForgotPasswordScreen';
 import NewPasswordScreen from '../screens/NewPasswordScreen';
 import HomeScreen from '../screens/HomeScreen';
 import SplashScreen from "../screens/SplashScreen";
+import OnboardingScreen from "../screens/OnboardingScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -26,17 +27,17 @@ const config = {
 const Navigation = () => {
     return (
         <NavigationContainer>
-            <Stack.Navigator screenOptions={{headerShown: false}}>
-                <Stack.Screen
-                    name="Splash"
-                    component={SplashScreen}
-                    options={{
-                        transitionSpec: {
-                            open: config,
-                            close: config,
-                        },
-                    }}
-                />
+            <Stack.Navigator
+                screenOptions={{
+                    headerShown: false,
+                    transitionSpec: {
+                        open: config,
+                        close: config,
+                    },
+                }}
+            >
+                <Stack.Screen name="Splash" component={SplashScreen} />
+                <Stack.Screen name="Onboard" component={OnboardingScreen} />
                 <Stack.Screen name="SignIn" component={SignInScreen} />
                 <Stack.Screen name="SignUp" component={SignUpScreen} />
                 <Stack.Screen name="ConfirmEmail" component={ConfirmEmailScreen} />
