@@ -3,12 +3,14 @@ import {View, Text, StyleSheet, ScrollView} from "react-native";
 import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton";
 import { useNavigation } from "@react-navigation/native";
+import { useForm } from "react-hook-form";
 
-const ConfirmEmailScreen = () => {  
-   
-    const [code, setCode]= useState('');
-    
-    const onConfirmPressed = () => {
+
+const ConfirmEmailScreen = () => {
+    const {control, handleSubmit} = useForm();
+
+    const onConfirmPressed = (data) => {
+        console.log(data);
         navigation.navigate("Home");
     }
 
@@ -27,25 +29,28 @@ const ConfirmEmailScreen = () => {
             <View style={styles.root}>
                 <Text style={styles.title}>Confirm your email</Text>
 
-                <CustomInput 
-                    placeholder="Enter your confirmation code" 
-                    value={code} 
-                    setValue={setCode}
+                <CustomInput
+                    name="code"
+                    control={control}
+                    placeholder="Enter your confirmation code"
+                    rules={{
+                        required: 'Confirmation code is required'
+                    }}
                 />
 
-                <CustomButton text="Confirm" onPress={onConfirmPressed}/>
+                <CustomButton text="Confirm" onPress={handleSubmit(onConfirmPressed)}/>
 
-                <CustomButton 
-                    text="Resend Code" 
+                <CustomButton
+                    text="Resend Code"
                     onPress={onResendPressed}
                     type="SECONDARY"
-                />  
-                
-                <CustomButton 
-                    text="Back to Sign In" 
+                />
+
+                <CustomButton
+                    text="Back to Sign In"
                     onPress={onSignInPressed}
                     type="TERTIARY"
-                />  
+                />
 
             </View>
         </ScrollView>

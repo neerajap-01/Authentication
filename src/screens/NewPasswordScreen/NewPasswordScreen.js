@@ -3,13 +3,13 @@ import {View, Text, StyleSheet, ScrollView} from "react-native";
 import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton";
 import { useNavigation } from "@react-navigation/native";
+import {useForm} from "react-hook-form";
 
-const NewPasswordScreen = () => {  
-   
-    const [code, setCode]= useState('');
-    const [newPassword, setNewPassword]= useState('');
-    
-    const onSubmitPressed = () => {
+const NewPasswordScreen = () => {
+    const {control, handleSubmit} = useForm();
+
+    const onSubmitPressed = (data) => {
+        console.log(data);
         navigation.navigate("Home");
     }
 
@@ -24,25 +24,40 @@ const NewPasswordScreen = () => {
             <View style={styles.root}>
                 <Text style={styles.title}>Reset your password</Text>
 
-                <CustomInput 
-                    placeholder="Enter your confirmation code" 
-                    value={code} 
-                    setValue={setCode}
+                <CustomInput
+                    name='code'
+                    control={control}
+                    placeholder="Enter your confirmation code"
+                    rules={{
+                        required: 'Confirmation code is required'
+                    }}
                 />
 
-                <CustomInput 
-                    placeholder="Enter your new password" 
-                    value={newPassword} 
-                    setValue={setNewPassword}
+                <CustomInput
+                    name="password"
+                    placeholder="Password"
+                    control={control}
+                    secureTextEntry
+                    rules={{
+                        required: 'Password is required',
+                        minLength: {
+                            value: 6,
+                            message: 'Password should be minimum 6 characters long',
+                        },
+                        pattern: {
+                            value: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/,
+                            message: 'Password must contain one of 0-1,A-Z,a-z and special characters'
+                        }
+                    }}
                 />
 
-                <CustomButton text="Submit" onPress={onSubmitPressed}/>
+                <CustomButton text="Submit" onPress={handleSubmit(onSubmitPressed)}/>
 
-                <CustomButton 
-                    text="Back to Sign In" 
+                <CustomButton
+                    text="Back to Sign In"
                     onPress={onSignInPressed}
                     type="TERTIARY"
-                />  
+                />
 
             </View>
         </ScrollView>

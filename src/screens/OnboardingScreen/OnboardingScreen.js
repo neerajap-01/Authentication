@@ -2,29 +2,29 @@ import React from 'react';
 import {View, Text, Button, StyleSheet, TouchableOpacity, Image, SafeAreaView} from 'react-native';
 import Onboarding from 'react-native-onboarding-swiper';
 import LottieView from 'lottie-react-native';
-import {useNavigation} from "@react-navigation/native";
+import {StackActions, useNavigation} from "@react-navigation/native";
 
 
 const Done = ({...props}) => (
     <TouchableOpacity
         style={{marginHorizontal: 8, marginRight: 15}}
         {...props}
-    ><Text style={{fontSize: 16, fontWeight: "600"}}>Done</Text></TouchableOpacity>
+    ><Text style={{fontSize: 16, fontWeight: "600", color: '#111111'}}>Done</Text></TouchableOpacity>
 );
 const OnboardingScreen = props => {
     const navigation = useNavigation();
   return (
       <Onboarding
           DoneButtonComponent={Done}
-          onSkip={()=> navigation.navigate("SignIn")}
-          onDone={()=> navigation.navigate("SignIn")}
+          onSkip={()=> navigation.dispatch(StackActions.replace('SignIn', { user: null }))}
+          onDone={()=> navigation.dispatch(StackActions.replace('SignIn', { user: null }))}
           pages={[
               {
                   backgroundColor: '#ffffff',
                   image: (
                       <LottieView
                           style={{ height: 500}}
-                          autoSize={false}
+                          autoSize
                           autoPlay
                           loop
                           source={require('../../../assets/lottieFiles/rideConfirm.json')}
@@ -37,7 +37,7 @@ const OnboardingScreen = props => {
                   image: (
                       <LottieView
                           style={{ height: 500}}
-                          autoSize={false}
+                          autoSize
                           autoPlay
                           loop
                           source={require('../../../assets/lottieFiles/pickUp.json')}
@@ -50,7 +50,7 @@ const OnboardingScreen = props => {
                   image: (
                       <LottieView
                           style={{ height: 500}}
-                          autoSize={false}
+                          autoSize
                           autoPlay
                           loop
                           source={require('../../../assets/lottieFiles/dropOff.json')}
@@ -64,10 +64,5 @@ const OnboardingScreen = props => {
       />
   );
 };
-const styles = StyleSheet.create({
-    lottie: {
-        height: 200,
-    },
-});
 
 export default OnboardingScreen;
