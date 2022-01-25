@@ -1,19 +1,32 @@
 import React, {useState} from "react";
-import {View, Text, Image, StyleSheet, useWindowDimensions, ScrollView, TextInput} from "react-native";
+import {View, Text, Image, StyleSheet, useWindowDimensions, ScrollView, TextInput, Alert} from "react-native";
 import Logo from "../../../assets/images/rideit.png";
 import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton";
 import SocialSignInButtons from "../../components/SocialSignInButtons/SocialSignInButtons";
 import { useNavigation } from "@react-navigation/native";
 import { useForm } from "react-hook-form";
+import {Auth} from "aws-amplify";
 
 const SignInScreen = () => {
     const {control, handleSubmit, formState: {errors}} = useForm();
+    const [loading, setLoading] = useState(false);
 
-    const onSignInPressed = (data) => {
+    const onSignInPressed = async (data) => {
+        if(loading){
+            return;
+        }
+        setLoading(true);
         //validate user
+        try{
+            const response = await Auth.signIn(data.username, data.password);
+            console.log(response);
+        }catch (e) {
+            Alert.alert('Oops, Something is wrong', e.message);
+        }
+        setLoading(false);
 
-        navigation.navigate('Home');
+        //navigation.navigate('Home');
     }
 
     const onForgotPasswordPressed = () => {
@@ -63,7 +76,7 @@ const SignInScreen = () => {
                     }}
                 />
 
-                <CustomButton text="Sign In" onPress={handleSubmit(onSignInPressed)}/>
+                <CustomButton text={loading ? "Loading..." : "Sign In"} onPress={handleSubmit(onSignInPressed)}/>
 
                 <CustomButton
                     text="Forgot Password?"
@@ -71,7 +84,7 @@ const SignInScreen = () => {
                     type="TERTIARY"
                 />
 
-                <SocialSignInButtons />
+                {/*<SocialSignInButtons />*/}
 
                 <CustomButton
                     text="Don't have an account? Create one"
@@ -89,7 +102,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 10,
     },
-
     logo: {
         width: '70%',
         maxWidth: 400,
