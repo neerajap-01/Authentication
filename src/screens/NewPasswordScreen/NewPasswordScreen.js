@@ -1,35 +1,16 @@
 import React, {useState} from "react";
-import {View, Text, StyleSheet, ScrollView, Alert} from "react-native";
+import {View, Text, StyleSheet, ScrollView} from "react-native";
 import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton";
-import {useNavigation, useRoute} from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import {useForm} from "react-hook-form";
-import {Auth} from "aws-amplify";
 
 const NewPasswordScreen = () => {
-    const route = useRoute();
-    const [loading, setLoading] = useState(false);
-    const throwError = "PostConfirmation failed with error Cannot read property 'done' of undefined."
-    const {control, handleSubmit} = useForm({ defaultValues: { username: route?.params?.username } });
+    const {control, handleSubmit} = useForm();
 
-    const onSubmitPressed = async (data) => {
-        if(loading){
-            return;
-        }
-        setLoading(true);
-        try{
-            await Auth.forgotPasswordSubmit(data.username, data.code, data.password);
-            navigation.navigate("SignIn");
-        }catch (e) {
-            if(e.message === throwError){
-                navigation.navigate("SignIn");
-            } else {
-                Alert.alert('Oops, Something went wrong', "Please enter a valid code sent to you email.");
-            }
-        }
-        setLoading(false);
-        // console.log(data);
-        // navigation.navigate("Home");
+    const onSubmitPressed = (data) => {
+        console.log(data);
+        navigation.navigate("Home");
     }
 
     const onSignInPressed = () => {
@@ -42,15 +23,6 @@ const NewPasswordScreen = () => {
         <ScrollView showsVerticalScrollIndicator={false}>
             <View style={styles.root}>
                 <Text style={styles.title}>Reset your password</Text>
-
-                <CustomInput
-                    name="username"
-                    control={control}
-                    placeholder="Username"
-                    rules={{
-                        required: 'Username is required'
-                    }}
-                />
 
                 <CustomInput
                     name='code'
@@ -79,7 +51,7 @@ const NewPasswordScreen = () => {
                     }}
                 />
 
-                <CustomButton text={loading ? "Loading..." : "Submit"} onPress={handleSubmit(onSubmitPressed)}/>
+                <CustomButton text="Submit" onPress={handleSubmit(onSubmitPressed)}/>
 
                 <CustomButton
                     text="Back to Sign In"

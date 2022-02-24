@@ -3,8 +3,7 @@ import {View, Text, StyleSheet, useWindowDimensions, Image, SafeAreaView} from '
 import LottieView from 'lottie-react-native';
 import {StackActions, useNavigation} from "@react-navigation/native";
 import Logo from "../../../assets/images/rideit_splash.png";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import SignInScreen from "../SignInScreen";
+import AsyncStorage from "@react-native-community/async-storage";
 
 
 const SplashScreen = () => {
@@ -41,15 +40,19 @@ const SplashScreen = () => {
                     }else if (isFirstLaunch === true) {
                         return (
                             navigation.dispatch(
-                                StackActions.replace('Onboard')
+                                StackActions.replace('Onboard', {
+                                    user: null,
+                                })
                             )
                         )
                     } else {
                         return (
                             navigation.dispatch(
-                                StackActions.replace('SignIn', { navigationKey: "SignIn" })
+                                StackActions.replace('SignIn', {
+                                    user: null,
+                                })
                             )
-                        )
+                        );
                     }
                 }}
             />

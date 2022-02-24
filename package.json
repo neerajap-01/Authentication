@@ -10,15 +10,10 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@react-native-async-storage/async-storage": "^1.15.17",
-    "@react-native-community/netinfo": "^7.1.7",
-    "@react-native-picker/picker": "^2.2.1",
+    "@react-native-community/async-storage": "^1.12.1",
     "@react-navigation/native": "^6.0.6",
     "@react-navigation/native-stack": "^6.2.5",
     "@react-navigation/stack": "^6.0.11",
-    "amazon-cognito-identity-js": "^5.2.4",
-    "aws-amplify": "^4.3.12",
-    "aws-amplify-react-native": "^6.0.2",
     "lottie-ios": "3.2.3",
     "lottie-react-native": "^5.0.1",
     "react": "17.0.2",
